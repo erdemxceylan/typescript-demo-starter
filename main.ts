@@ -1,57 +1,33 @@
-//type-safe
+// Product - Category
+// Servisler
+// CRUD operasyonları Create Read Update Delete
+// GetAll, GetById, Add, Delete, Update
+// Bütün servisleri ve bütün aksiyonlarını main.ts'de test et.
 
-import { User } from './user';
+import { CategoryService } from "./services/category.js";
+import { ProductService } from "./services/product.js";
 
-// console.log("Typescript dosyasından merhaba");
+const categories = new CategoryService();
+categories.add({ id: 1, name: "teknoloji", desc: "elektronik eşyalar" });
+categories.add({ id: 2, name: "mutfak", desc: "mutfak eşyaları" });
+console.log(categories.getAll());
+console.log("----------");
+categories.update(1, { desc: "teknolojik ürünler" });
+console.log(categories.getAll());
+console.log("----------");
 
-function sayHello(name: string) {
-   console.log(`Hello ${name}`);
-}
+const products = new ProductService();
+const teknoloji = categories.getById(1);
+const mutfak = categories.getById(2);
+products.add({ id: 1, name: "laptop", price: 100, category: teknoloji });
+products.add({ id: 2, name: "fırın", price: 150, category: mutfak });
+products.add({ id: 3, name: "televizyon", price: 200, category: teknoloji });
+products.add({ id: 4, name: "buz dolabı", price: 300, category: mutfak });
 
-// sayHello("Seren");
-
-let sumFunction = (a1: number, a2: number): number => {
-   return a1 + a2;
-};
-
-let sumOfNumbers: number = sumFunction(5, 6);
-// console.log(sumOfNumbers);
-
-class Greeter {
-   private name: string;
-   constructor(name: string) {
-      this.name = name;
-   }
-   sayHi() {
-      console.log(`Hello ${this.name}`);
-      this.sayWhatsUp();
-   }
-
-   private sayWhatsUp() {
-      console.log("What's up?");
-   }
-}
-
-let greeter = new Greeter("Halit");
-// greeter.sayHi();
-
-class UserService {
-   private users: User[] = [];
-
-   add(user: User) {
-      this.users.push(user);
-   }
-
-   getUserNames(): User[] {
-      return this.users;
-   };
-}
-
-let userService = new UserService();
-userService.add({ name: 'Erdem', surname: 'Ceylan', age: 27 });
-console.log(userService.getUserNames());
-
-// userService class'ı oluşturalım
-// string[] dönüş tipi olarak getUserNames fonksiyonu oluşturalım
-// string name alan bir ekleme methodu
-// classin içinde bir alanda array ile tutalım. Ancak bu arraya dışardan erişim yasak!!
+console.log(products.getAll());
+console.log("----------");
+products.update(2, { name: "lüks fırın", price: 800 });
+console.log(products.getAll());
+console.log("----------");
+products.delete(3);
+console.log(products.getAll());
